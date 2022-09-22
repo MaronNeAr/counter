@@ -1,0 +1,95 @@
+<template>
+    <div id="Counter">
+      <!-- <el-button>hello</el-button> -->
+      <el-row id="result">
+        <el-input
+          v-model="result"
+          clearable>
+        </el-input>
+      </el-row>
+      <el-row :gutter="10">
+        <el-col :span="6"><div @click="getResult(7)" class="grid-content bg-purple">7</div></el-col>
+        <el-col :span="6"><div @click="getResult(8)" class="grid-content bg-purple">8</div></el-col>
+        <el-col :span="6"><div @click="getResult(9)" class="grid-content bg-purple">9</div></el-col>
+        <el-col :span="6"><div @click="getResult('/')" class="grid-content bg-purple">/</div></el-col>
+        <el-col :span="6"><div @click="getResult(4)" class="grid-content bg-purple">4</div></el-col>
+        <el-col :span="6"><div @click="getResult(5)" class="grid-content bg-purple">5</div></el-col>
+        <el-col :span="6"><div @click="getResult(6)" class="grid-content bg-purple">6</div></el-col>
+        <el-col :span="6"><div @click="getResult('*')" class="grid-content bg-purple">*</div></el-col>
+        <el-col :span="6"><div @click="getResult(1)" class="grid-content bg-purple">1</div></el-col>
+        <el-col :span="6"><div @click="getResult(2)" class="grid-content bg-purple">2</div></el-col>
+        <el-col :span="6"><div @click="getResult(3)" class="grid-content bg-purple">3</div></el-col>
+        <el-col :span="6"><div @click="getResult('+')" class="grid-content bg-purple">+</div></el-col>
+        <el-col :span="6"><div @click="getResult(0)" class="grid-content bg-purple">0</div></el-col>
+        <el-col :span="6"><div @click="getResult('.')" class="grid-content bg-purple">.</div></el-col>
+        <el-col :span="6"><div @click="getResult('=')" class="grid-content bg-purple">=</div></el-col>
+        <el-col :span="6"><div @click="getResult('-')" class="grid-content bg-purple">-</div></el-col>
+      </el-row>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: 'Counter',
+    data () {
+      return {
+        'result': ''
+      }
+    },
+    methods: {
+      sendMessage (message) {
+        this.$message({
+          message: message,
+          type: 'warning'
+        })
+      },
+      getResult (e) {
+        // 不可以连续输入 小数点
+        if (e === '.' && this.result.split('').reverse().join('').indexOf('.') === 0) {
+          this.sendMessage('请输入正确的浮点数1')
+          return false
+        }
+        // 如果第一次 输入的是 运算符号，则提示
+        if (['+', '-', '*', '/', '%', '.'].indexOf(e) > -1 && this.result.length === 0) {
+          this.sendMessage('请先输入数字')
+          return false
+        }
+        // 如果第一次 输入的是 = 号，则直接返回
+        if (e === '=' && this.result.length === 0) {
+          return false
+        }
+        // 出现 = 号则表示已经执行过计算，需要清空
+        if (this.result.indexOf('=') > -1) {
+          this.result = ''
+        }
+        switch (e) {
+          case '=':
+            // eslint-disable-next-line no-eval
+            this.result += '=' + eval(this.result)
+            break
+          default:
+            this.result += e
+        }
+      }
+    }
+  }
+  </script>
+  
+  <style scoped>
+    #result{
+      margin-bottom: 10px;
+    }
+    .grid-content{
+      text-align: center;
+      height: 40px;
+      border:solid 1px #e6e6e6;
+      line-height: 40px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .grid-content:hover{
+      background-color: #f5f5f5;
+    }
+  </style>
