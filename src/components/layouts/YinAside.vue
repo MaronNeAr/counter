@@ -20,10 +20,10 @@
         <el-icon><Notification /></el-icon>
         <span>进制转换</span>
       </el-menu-item>
-      <el-menu-item index="financial">
+      <!-- <el-menu-item index="financial">
         <el-icon><Document /></el-icon>
         <span>理财计算</span>
-      </el-menu-item>
+      </el-menu-item> -->
       <el-menu-item index="unit">
         <el-icon><ScaleToOriginal /></el-icon>
         <span>单位换算</span>
@@ -31,6 +31,18 @@
       <el-menu-item index="function">
         <el-icon><DataLine /></el-icon>
         <span>函数图像</span>
+      </el-menu-item>
+      <el-menu-item index="financial">
+        <el-icon><Document /></el-icon>
+        <span>理财计算</span>
+      </el-menu-item>
+      <el-menu-item index="healthy">
+        <el-icon><Document /></el-icon>
+        <span>健康数据</span>
+      </el-menu-item>
+      <el-menu-item index="evaluation">
+        <el-icon><Document /></el-icon>
+        <span>综合测评</span>
       </el-menu-item>
     </el-menu>
   </div>

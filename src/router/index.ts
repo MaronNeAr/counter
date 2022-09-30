@@ -7,6 +7,10 @@ const routes: Array<RouteRecordRaw> = [
     meta: { title: '自述文件' },
     children: [
       {
+        path:'/',
+        component: () => import('@/views/CounterPage.vue')
+      },
+      {
         path: '/Counter',
         component: () => import('@/views/CounterPage.vue'),
         meta: { title: 'counter' }
@@ -35,6 +39,16 @@ const routes: Array<RouteRecordRaw> = [
         path: '/Function',
         component: () => import('@/views/FunctionPage.vue'),
         meta: { title: 'function' }
+      },
+      {
+        path: '/Healthy',
+        component: () => import('@/views/HealthyPage.vue'),
+        meta: { title: 'healthy' }
+      },
+      {
+        path: '/Evaluation',
+        component: () => import('@/views/EvaluationPage.vue'),
+        meta: { title: 'evaluation' }
       }
     ]
   }

@@ -3,7 +3,7 @@
     <yin-header></yin-header>
     <yin-aside></yin-aside>
     <div class="content-box" :class="{ 'content-collapse': collapse }">
-      <router-view></router-view>
+      <router-view class="main"></router-view>
     </div>
     <yin-audio></yin-audio>
   </div>
@@ -39,5 +39,9 @@ emitter.on("collapse", (msg) => {
 
 .content-collapse {
   left: 65px;
+}
+
+.main {
+  background-image: url(../assets/images/bg.png);
 }
 </style>

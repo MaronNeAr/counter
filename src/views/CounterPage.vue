@@ -1,34 +1,51 @@
 <template>
     <div id="Counter">
-      <!-- <el-button>hello</el-button> -->
-      <el-row id="result">
-        <el-input
-          v-model="result"
-          clearable>
-        </el-input>
-      </el-row>
-      <el-row :gutter="10">
-        <el-col :span="6"><div @click="getResult(7)" class="grid-content bg-purple">7</div></el-col>
-        <el-col :span="6"><div @click="getResult(8)" class="grid-content bg-purple">8</div></el-col>
-        <el-col :span="6"><div @click="getResult(9)" class="grid-content bg-purple">9</div></el-col>
-        <el-col :span="6"><div @click="getResult('/')" class="grid-content bg-purple">/</div></el-col>
-        <el-col :span="6"><div @click="getResult(4)" class="grid-content bg-purple">4</div></el-col>
-        <el-col :span="6"><div @click="getResult(5)" class="grid-content bg-purple">5</div></el-col>
-        <el-col :span="6"><div @click="getResult(6)" class="grid-content bg-purple">6</div></el-col>
-        <el-col :span="6"><div @click="getResult('*')" class="grid-content bg-purple">*</div></el-col>
-        <el-col :span="6"><div @click="getResult(1)" class="grid-content bg-purple">1</div></el-col>
-        <el-col :span="6"><div @click="getResult(2)" class="grid-content bg-purple">2</div></el-col>
-        <el-col :span="6"><div @click="getResult(3)" class="grid-content bg-purple">3</div></el-col>
-        <el-col :span="6"><div @click="getResult('+')" class="grid-content bg-purple">+</div></el-col>
-        <el-col :span="6"><div @click="getResult(0)" class="grid-content bg-purple">0</div></el-col>
-        <el-col :span="6"><div @click="getResult('.')" class="grid-content bg-purple">.</div></el-col>
-        <el-col :span="6"><div @click="getResult('=')" class="grid-content bg-purple">=</div></el-col>
-        <el-col :span="6"><div @click="getResult('-')" class="grid-content bg-purple">-</div></el-col>
-      </el-row>
+      <el-card>
+        <!-- <el-button>hello</el-button> -->
+        <el-row id="result">
+          <el-input
+            v-model="result"
+            clearable placeholder="请输入表达式">
+          </el-input>
+        </el-row>
+        <el-row :gutter="10">
+          <el-col :span="6"><div @click="getResult(7)" class="grid-content bg-purple">7</div></el-col>
+          <el-col :span="6"><div @click="getResult(8)" class="grid-content bg-purple">8</div></el-col>
+          <el-col :span="6"><div @click="getResult(9)" class="grid-content bg-purple">9</div></el-col>
+          <el-col :span="6"><div @click="getResult('/')" class="grid-content bg-purple">/</div></el-col>
+          <el-col :span="6"><div @click="getResult(4)" class="grid-content bg-purple">4</div></el-col>
+          <el-col :span="6"><div @click="getResult(5)" class="grid-content bg-purple">5</div></el-col>
+          <el-col :span="6"><div @click="getResult(6)" class="grid-content bg-purple">6</div></el-col>
+          <el-col :span="6"><div @click="getResult('*')" class="grid-content bg-purple">*</div></el-col>
+          <el-col :span="6"><div @click="getResult(1)" class="grid-content bg-purple">1</div></el-col>
+          <el-col :span="6"><div @click="getResult(2)" class="grid-content bg-purple">2</div></el-col>
+          <el-col :span="6"><div @click="getResult(3)" class="grid-content bg-purple">3</div></el-col>
+          <el-col :span="6"><div @click="getResult('+')" class="grid-content bg-purple">+</div></el-col>
+          <el-col :span="6"><div @click="getResult('.')" class="grid-content bg-purple">.</div></el-col>
+          <el-col :span="6"><div @click="getResult(0)" class="grid-content bg-purple">0</div></el-col>
+          <el-col :span="6"><div @click="getResult('^')" class="grid-content bg-purple">^</div></el-col>
+          <el-col :span="6"><div @click="getResult('-')" class="grid-content bg-purple">-</div></el-col>
+          <el-col :span="6"><div @click="getResult('(')" class="grid-content bg-purple">(</div></el-col>
+          <el-col :span="6"><div @click="getResult(')')" class="grid-content bg-purple">)</div></el-col>
+          <el-col :span="6"><div @click="getResult('=')" class="grid-content bg-purple">=</div></el-col>
+          <el-col :span="6"><div @click="getResult('')" class="grid-content bg-purple">AC</div></el-col>
+        </el-row>
+        <h6 align="center">上海财经大学 | 联系我们 | <a style="text-decoration" href="https://beian.miit.gov.cn/">宁ICP备2022000586号</a></h6>
+      </el-card>
     </div>
   </template>
   
   <script>
+  function calc(str) {
+    let idx = str.indexOf('^');
+    if (idx == -1) return eval(str);
+    let i = str.substring(0, idx).lastIndexOf('('), j = idx + 1;
+    while (j < str.length && str[j] >= '0' && str[j] <= '9') j++;
+    let left = str.substring(i + 1, idx - 1),
+      right = str.substring(idx + 1, j);
+    return calc(str.substring(0, i) + Math.pow(left, right) + str.substring(j));
+  }
+
   export default {
     name: 'Counter',
     data () {
@@ -45,6 +62,7 @@
       },
       getResult (e) {
         // 不可以连续输入 小数点
+        if (e == '') this.result = this.result.substr(0, this.result.length - 1);
         if (e === '.' && this.result.split('').reverse().join('').indexOf('.') === 0) {
           this.sendMessage('请输入正确的浮点数1')
           return false
@@ -65,7 +83,7 @@
         switch (e) {
           case '=':
             // eslint-disable-next-line no-eval
-            this.result += '=' + eval(this.result)
+            this.result += '=' + calc(this.result)
             break
           default:
             this.result += e
