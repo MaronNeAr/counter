@@ -8,6 +8,7 @@ import "element-plus/dist/index.css";
 import "./assets/css/main.css";
 import "./assets/icons/iconfont.js";
 import "./assets/fonts/iconfont.css";
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 import { Store } from "vuex";
 declare module "@vue/runtime-core" {
@@ -20,4 +21,8 @@ declare module "@vue/runtime-core" {
   }
 }
 
-createApp(App).use(store).use(router).use(ElementPlus).mount("#app");
+const app = createApp(App);
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+app.use(store).use(router).use(ElementPlus).mount("#app");

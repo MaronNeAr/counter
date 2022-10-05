@@ -1,5 +1,5 @@
 <template>
-  <audio controls="controls" preload="true" v-if="url" :ref="player" @canplay="startPlay" @ended="ended"></audio>
+  <audio controls="autoplay" preload="true" v-if="true" :ref="player" @canplay="startPlay" @ended="ended"></audio>
 </template>
 
 <script lang="ts">

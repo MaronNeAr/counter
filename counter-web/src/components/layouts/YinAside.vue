@@ -4,10 +4,14 @@
       class="sidebar-el-menu"
       background-color="#ffffff"
       active-text-color="#30a4fc"
-      default-active="2"
+      default-active="counter"
       router
       :collapse="collapse"
     >
+    <el-menu-item index="hall">
+      <el-icon><Headset /></el-icon>
+      <span>餐厅</span>
+    </el-menu-item>
       <el-menu-item index="counter">
         <el-icon><Menu /></el-icon>
         <span>计算器</span>
@@ -34,7 +38,7 @@
       </el-menu-item>
       <el-menu-item index="financial">
         <el-icon><Document /></el-icon>
-        <span>理财计算</span>
+        <span>商品计价</span>
       </el-menu-item>
       <el-menu-item index="healthy">
         <el-icon><Document /></el-icon>
@@ -64,7 +68,7 @@ emitter.on("collapse", (msg) => {
   display: block;
   position: absolute;
   left: 0;
-  top: 60px;
+  top: 6%;
   bottom: 0;
   overflow-y: scroll;
 }
@@ -77,7 +81,15 @@ emitter.on("collapse", (msg) => {
   height: 100%;
 }
 
+.sidebar > ul >li {
+  transition:all .5s;
+}
+
+.sidebar > ul >li:hover {
+  transform:scale(1.5);
+}
+
 .sidebar-el-menu:not(.el-menu--collapse) {
-  width: 150px;
+  width: 100%;
 }
 </style>

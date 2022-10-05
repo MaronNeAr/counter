@@ -1,10 +1,10 @@
 <template>
   <div class="header">
-    <div class="collapse-btn" @click="collapseChage">
+    <!-- <div class="collapse-btn" @click="collapseChage">
       <el-icon v-if="!collapse"><expand /></el-icon>
       <el-icon v-else><fold /></el-icon>
-    </div>
-    <div class="logo">{{ nusicName }}</div>
+    </div> -->
+    <div class="logo" align="center">{{ musicName }}——{{ subTitle }}</div>
     <!-- <div class="header-right">
       <div class="header-user-con">
         <div class="user-avator">
@@ -26,8 +26,9 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted } from "vue";
+import { defineComponent, computed, ref, onMounted, watch } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from 'vue-router';
 import mixin from "@/mixins/mixin";
 import { Expand, Fold } from "@element-plus/icons-vue";
 import emitter from "@/utils/emitter";
@@ -36,8 +37,8 @@ import { RouterName, MUSICNAME } from "@/enums";
 
 export default defineComponent({
   components: {
-    Expand,
-    Fold,
+    // Expand,
+    // Fold,
   },
   setup() {
     const { routerManager } = mixin();
@@ -46,8 +47,22 @@ export default defineComponent({
     const collapse = ref(true);
     const username = ref("admin");
     const userPic = computed(() => store.getters.userPic);
-    const nusicName = ref(MUSICNAME);
+    const musicName = ref(MUSICNAME);
 
+    const subTitle = computed(() => {
+      switch (useRouter().currentRoute.value.path.substring(1)) {
+        case "counter" : return "基本计算器";
+        case "rate" : return "汇率计算";
+        case "base" : return "进制换算";
+        case "unit" : return "单位换算";
+        case "function" : return "函数图像";
+        case "commodity" : return "大学牲滴一周开销";
+        case "healthy" : return "健康计算";
+        case "evaluation" : return "综测计算";
+        default :return "商品计价";
+      }
+    });
+    
     onMounted(() => {
       if (document.body.clientWidth < 1500) {
         collapseChage();
@@ -66,7 +81,8 @@ export default defineComponent({
       }
     }
     return {
-      nusicName,
+      musicName,
+      subTitle,
       username,
       userPic,
       collapse,
@@ -82,7 +98,7 @@ export default defineComponent({
   position: absolute;
   z-index: 100;
   width: 100%;
-  height: 60px;
+  height: 8%;
   display: flex;
   align-items: center;
   font-size: 20px;
@@ -98,7 +114,7 @@ export default defineComponent({
 }
 
 .header .logo {
-  width: 250px;
+  width: 100%;
   font-weight: bold;
 }
 
@@ -131,4 +147,8 @@ export default defineComponent({
 .el-dropdown-menu__item {
   text-align: center;
 }
+
+.subtitle {
+  
+} 
 </style>

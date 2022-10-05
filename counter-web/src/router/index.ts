@@ -26,9 +26,9 @@ const routes: Array<RouteRecordRaw> = [
         meta: { title: 'base' }
       },
       {
-        path: '/Financial',
-        component: () => import('@/views/FinancialPage.vue'),
-        meta: { title: 'financial' }
+        path: '/Commodity',
+        component: () => import('@/views/CommodityPage.vue'),
+        meta: { title: 'commodity' }
       },
       {
         path: '/Unit',
