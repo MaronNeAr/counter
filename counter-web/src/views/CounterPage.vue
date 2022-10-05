@@ -1,5 +1,6 @@
 <template>
     <div id="Counter">
+      <br />
       <el-card>
         <!-- <el-button>hello</el-button> -->
         <el-row id="result">
@@ -106,8 +107,10 @@
       font-weight: bold;
       border-radius: 5px;
       cursor: pointer;
+      transition: all .1s;
     }
     .grid-content:hover{
       background-color: #f5f5f5;
+      transform:scale(1.2);
     }
   </style>

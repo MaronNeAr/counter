@@ -17,11 +17,11 @@
         <el-row>
           <el-col :span="17"></el-col>
           <el-col :span="2" align="right">
-            <el-button type="primary" @click="bmiShow = !bmiShow">计算</el-button>
+            <el-button type="primary" @click="show.bmi=!show.bmi">计算</el-button>
           </el-col>
         </el-row>
         <br />
-        <el-row v-if="bmiShow" class="dialog">
+        <el-row v-if="show.bmi" class="dialog">
           <el-col :span="8"></el-col>
           <el-col :span="4">
             <br />
@@ -72,22 +72,22 @@
         <el-row>
           <el-col :span="17"></el-col>
           <el-col :span="2" align="right">
-            <el-button type="primary" @click="bmiShow = !bmiShow">计算</el-button>
+            <el-button type="primary" @click="show.kcal=!show.kcal">计算</el-button>
           </el-col>
         </el-row>
         <br />
-        <el-row v-if="bmiShow">
+        <el-row v-if="show.kcal" class="dialog">
           <el-col :span="8"></el-col>
           <el-col :span="4">
+            <br />
             <div class="left">
-              <div>&nbsp;BMI指数</div>
-              <div>&nbsp;BMI建议</div>
+              <div>&nbsp;基础代谢率</div>
             </div>
           </el-col>
           <el-col :span="4">
+            <br />
             <div class="right" align="right">
-              <div>{{bmi}}&nbsp;</div>
-              <div>{{bmiAdvice}}&nbsp;</div>
+              <div>{{kcal}}Kcal/kg.d&nbsp;</div>
             </div>
           </el-col>
           <el-col :span="8"></el-col>
@@ -95,7 +95,7 @@
     </el-card>
     <br />
     <el-card>
-      <h3>每日消耗</h3>
+      <h3>每日消耗卡路里</h3>
       <br />
       <el-row>
         <el-col :span="9">
@@ -125,29 +125,29 @@
       <el-row>
         <el-col :span="17">
           <el-select placeholder="请选择今日活动系数" v-model="activeCoff">
-            <el-option label="1.2-少量活动" value="1.2-少量活动"></el-option>
-            <el-option label="1.3-轻度活动" value="1.3-轻度活动"></el-option>
-            <el-option label="1.6-中度活动" value="1.6-中度活动"></el-option>
-            <el-option label="2.0-剧烈活动" value="2.0-剧烈活动"></el-option>
+            <el-option label="1.2-少量活动" value="1.2"></el-option>
+            <el-option label="1.3-轻度活动" value="1.3"></el-option>
+            <el-option label="1.6-中度活动" value="1.6"></el-option>
+            <el-option label="2.0-剧烈活动" value="2.0"></el-option>
           </el-select>
         </el-col>
         <el-col :span="2" align="right">
-          <el-button type="primary" @click="bmiShow = !bmiShow">计算</el-button>
+          <el-button type="primary" @click="show.calorie = !show.calorie">计算</el-button>
         </el-col>
       </el-row>
       <br />
-      <el-row v-if="bmiShow">
+      <el-row v-if="show.calorie" class="dialog">
         <el-col :span="8"></el-col>
         <el-col :span="4">
+          <br />
           <div class="left">
-            <div>&nbsp;BMI指数</div>
-            <div>&nbsp;BMI建议</div>
+            <div>&nbsp;每日消耗</div>
           </div>
         </el-col>
         <el-col :span="4">
+          <br />
           <div class="right" align="right">
-            <div>{{bmi}}&nbsp;</div>
-            <div>{{bmiAdvice}}&nbsp;</div>
+            <div>{{calorie.toFixed(2)}}大卡&nbsp;</div>
           </div>
         </el-col>
         <el-col :span="8"></el-col>
@@ -195,25 +195,58 @@
   </div>
 </template>
   
-<script>
-import { ref, computed, watch } from "vue";
+<script lang="ts">
+import { ref, computed, getCurrentInstance } from "vue";
 
 export default {
   setup(){
+    const { proxy } = getCurrentInstance();
     const height = ref();
     const weight = ref();
     const sex = ref();
     const age = ref();
     const activeCoff = ref();
-    const bmiShow = ref(false);
+    const show = ref({
+      bmi:false,
+      kcal:false,
+      calorie:false,
+    });
     const bmi = computed(() => {
       return (weight.value / Math.pow(height.value / 100, 2)).toFixed(1);
     });
     const bmiAdvice = computed(() => {
-      if (bmi.value < 18.5) return "体重过轻，需要增重";
-      else if (bmi.value <= 24) return "体重正常";
-      else if (bmi.value <= 28) return "超重，需要减重";
+      if (Number(bmi.value) < 18.5) return "体重过轻，需要增重";
+      else if (Number(bmi.value) <= 24) return "体重正常";
+      else if (Number(bmi.value) <= 28) return "超重，需要减重";
       else return "肥胖需要减重";
+    });
+    const kcal = computed(() => {
+      if (sex.value == "男") return 66.5 + 13.8 * weight.value + 5.0 * height.value - 6.8 * age.value;
+      else return 665.1 + 9.6 * weight.value + 1.8 * height.value - 4.7 * age.value;
+    });
+    const calorie = computed(() => {
+
+      if (sex.value == "男") {
+        if (age.value < 18) {
+          (proxy as any).$message({
+            message: "我想您的年龄应当至少为18岁",
+            type:"error"
+          });
+          return 0;
+        } else if (age.value < 30) return 15.2 * weight.value + 24 * activeCoff.value + 680;
+        else if (age.value < 60) return 11.5 * weight.value + 24 * activeCoff.value + 830;
+        else return 13.4 * weight.value + 24 * activeCoff.value + 490;
+      } else {
+        if (age.value < 18) {
+          (proxy as any).$message({
+            message: "我想您的年龄应当至少为18岁",
+            type:"error"
+          });
+          return 0;
+        } else if (age.value < 30) return 14.6 * weight.value + 24 * activeCoff.value + 450;
+        else if (age.value < 60) return 8.6 * weight.value + 24 * activeCoff.value + 830;
+        else return 10.4 * weight.value + 24 * activeCoff.value + 600;
+      }
     })
     return {
       height,
@@ -223,15 +256,25 @@ export default {
       activeCoff,
       bmi,
       bmiAdvice,
-      bmiShow
+      kcal,
+      calorie,
+      show
     }
   }
 }
 </script>
 
 <style scoped>
-  * {
-    transition: all 2s;
+  div {
+    animation: fadeInAnimation ease-in 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+  .el-card {
+    transform-origin: 50% 0; 
+  }
+  .el-card:hover {
+    background-color:#f5f3f3;
   }
   .plus-enter-active{
     transition: opacity .5s;
@@ -252,10 +295,10 @@ export default {
     background: #99a9bf;
   }
   .left{
-    border-left: 1px dotted black;
+    border-left:1px solid rgb(197, 197, 196);
   }
   .right {
-    border-right: 1px dotted black;
+    border-right:1px solid rgb(197, 197, 196);
     color:skyblue;
   }
   .dialog {

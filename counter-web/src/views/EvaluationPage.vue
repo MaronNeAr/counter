@@ -33,7 +33,7 @@
                     </el-table-column>
                     <el-table-column label="课程成绩" prop="score" align="center">
                         <template v-slot="scope">
-                            <el-input v-model="scope.row.score" :placeholder="'请输入成绩,该课程为' + scope.row.credit + '学分'"></el-input>
+                            <el-input v-model="scope.row.score" :placeholder="'请输入成绩,该课程为' + scope.row.credit + '学分'" :min="0" :max="100"></el-input>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -41,7 +41,13 @@
         </el-row>
         <br />
         <el-row align="right">
-            <el-col :span="20"></el-col>
+            <el-col :span="16"></el-col>
+            <el-col :span="1" align="center">
+                <h3>GPA</h3>
+            </el-col>
+            <el-col :span="3" align="center">
+                <h3>{{gpa}}/4.0</h3>
+            </el-col>
             <el-col :span="2">
                 <h3>智育分</h3>
             </el-col>
@@ -54,11 +60,11 @@
         <br />
         <el-row>
             <el-col :span="9">
-                <el-input placeholder="请填写第一学期体育成绩" v-model="term1"></el-input>
+                <el-input placeholder="请填写第一学期体育成绩" v-model="term1" :min="0" :max="100"></el-input>
             </el-col>
             <el-col :span="1"></el-col>
             <el-col :span="9">
-                <el-input placeholder="请填写第二学期体育成绩" v-model="term2"></el-input>
+                <el-input placeholder="请填写第二学期体育成绩" v-model="term2" :min="0" :max="100"></el-input>
             </el-col>
             <el-col :span="1"></el-col>
             <el-col :span="2">
@@ -161,9 +167,17 @@
                 <el-button type="primary" @click="resDialog = !resDialog">计算综测得分</el-button>
             </el-col>
         </el-row>
-        <el-dialog v-model="resDialog">
-            <p>您的综合测评成绩为</p>
-            <h1 align="center">{{Number(zyScore) + Number(tyScore) + Number(extroScore) + Number(randScore)}}</h1>
+        <el-dialog v-model="resDialog" >
+            <el-row>
+                <el-col :span="11">
+                    <img align="right" src="../assets/images/wyz.jpg" height="120">
+                </el-col>
+                <el-col :span="2"></el-col>
+                <el-col :span="11">
+                    <p>您的综合测评成绩为</p>
+                    <h1>{{(Number(zyScore) + Number(tyScore) + Number(extroScore) + Number(randScore)).toFixed(2)}}</h1>
+                </el-col>
+            </el-row>
         </el-dialog>
     </el-card>
   </div>
@@ -199,6 +213,29 @@ export default {
         const term1 = ref();
         const term2 = ref();
         const clock = ref();
+        const gpa = computed(() => {
+            let gp = 0, credits = 0;
+            courseData.value.forEach((item) => {
+                if (typeof item.score == "undefined" || item.score == null || item.score == "") return;
+                else if (item.score < 60 && item.score >= 0) gp += 0.0;
+                else if (item.score < 64) gp += 1.0 * item.credit;
+                else if (item.score < 68) gp += 1.7 * item.credit;
+                else if (item.score < 72) gp += 2.0 * item.credit;
+                else if (item.score < 75) gp += 2.3 * item.credit;
+                else if (item.score < 78) gp += 2.7 * item.credit;
+                else if (item.score < 82) gp += 3.0 * item.credit;
+                else if (item.score < 85) gp += 3.3 * item.credit;
+                else if (item.score < 90) gp += 3.7 * item.credit;
+                else if (item.score <= 100) gp += 4.0 * item.credit;
+                else (proxy as any).$message({
+                    message:"我想您的成绩应当为与0-100的区间",
+                    type:"error"
+                });
+                credits += item.credit;
+            });
+            if (credits == 0) return 0;
+            else return (gp / credits).toFixed(2);
+        });
         const zyScore = computed(() => {
             let score = 0, credits = 0;
             courseData.value.forEach((item) => {
@@ -223,11 +260,10 @@ export default {
                 else if (item.level == "国家级") extro += 2;
                 else extro += Number(item.credit);
             });
-            if (typeof clock.value == "undefined" || clock.value == null || clock.value == "") return 0;
+            if (typeof clock.value == "undefined" || clock.value == null || clock.value == "") return (2.5 + (extro < 3.5 ? extro : 3.5)).toFixed(2);
             return (2.5 - 0.1 * (16 - Number(clock.value)) + (extro < 3.5 ? extro : 3.5)).toFixed(2);
         });
         const randScore = (14.9 + (Math.random() / 10)).toFixed(2);
-
         getData();
 
         async function getData() {
@@ -277,6 +313,7 @@ export default {
             term1,
             term2,
             clock,
+            gpa,
             zyScore,
             tyScore,
             extroScore,
