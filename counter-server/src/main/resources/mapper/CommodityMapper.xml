@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.yin.dao.CommodityMapper">
     <resultMap id="commodityResultMap" type="com.example.yin.domain.Commodity">
-        <result column="src_img" property="srcImg"/>
+        <result column="img_src" property="imgSrc"/>
     </resultMap>
     <select id="selectCommoditiesByCid" resultMap="commodityResultMap">
         select * from commodity where cid = #{id}
