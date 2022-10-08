@@ -194,4 +194,7 @@ function drow(func, param) {
 		height: 500px;
 		background-color: white;
 	}
+	.el-button {
+		max-width:100%;
+	}
 </style>

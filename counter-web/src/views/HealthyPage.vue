@@ -4,6 +4,7 @@
         <h3>BMI计算</h3>
         <br />
         <el-row>
+          <el-col :span="2"></el-col>
           <el-col :span="9">
               <el-input placeholder="请填写您的身高（cm）" v-model="height"></el-input>
           </el-col>
@@ -15,7 +16,7 @@
         </el-row>
         <br />
         <el-row>
-          <el-col :span="17"></el-col>
+          <el-col :span="19"></el-col>
           <el-col :span="2" align="right">
             <el-button type="primary" @click="show.bmi=!show.bmi">计算</el-button>
           </el-col>
@@ -45,6 +46,7 @@
         <h3>基础代谢</h3>
         <br />
         <el-row>
+          <el-col :span="2"></el-col>
           <el-col :span="9">
               <el-select placeholder="请选择性别" v-model="sex">
                 <el-option label="男" value="男"></el-option>
@@ -59,6 +61,7 @@
         </el-row>
         <br />
         <el-row>
+          <el-col :span="2"></el-col>
           <el-col :span="9">
               <el-input placeholder="请填写您的身高（cm）" v-model="height"></el-input>
           </el-col>
@@ -70,7 +73,7 @@
         </el-row>
         <br />
         <el-row>
-          <el-col :span="17"></el-col>
+          <el-col :span="19"></el-col>
           <el-col :span="2" align="right">
             <el-button type="primary" @click="show.kcal=!show.kcal">计算</el-button>
           </el-col>
@@ -98,7 +101,8 @@
       <h3>每日消耗卡路里</h3>
       <br />
       <el-row>
-        <el-col :span="9">
+          <el-col :span="2"></el-col>
+          <el-col :span="9">
             <el-select placeholder="请选择性别" v-model="sex">
               <el-option label="男" value="男"></el-option>
               <el-option label="女" value="女"></el-option>
@@ -112,7 +116,8 @@
       </el-row>
       <br />
       <el-row>
-        <el-col :span="9">
+          <el-col :span="2"></el-col>
+          <el-col :span="9">
             <el-input placeholder="请填写您的身高（cm）" v-model="height"></el-input>
         </el-col>
         <el-col :span="1"></el-col>
@@ -123,7 +128,8 @@
       </el-row>
       <br />
       <el-row>
-        <el-col :span="17">
+          <el-col :span="2"></el-col>
+          <el-col :span="17">
           <el-select placeholder="请选择今日活动系数" v-model="activeCoff">
             <el-option label="1.2-少量活动" value="1.2"></el-option>
             <el-option label="1.3-轻度活动" value="1.3"></el-option>
@@ -148,45 +154,6 @@
           <br />
           <div class="right" align="right">
             <div>{{calorie.toFixed(2)}}大卡&nbsp;</div>
-          </div>
-        </el-col>
-        <el-col :span="8"></el-col>
-      </el-row>
-    </el-card>
-    <br />
-    <el-card>
-      <h3>三大营养摄入比</h3>
-      <br />
-      <el-row>
-        <el-col :span="9">
-            <el-input placeholder="请填写您的身高（cm）" v-model="height"></el-input>
-        </el-col>
-        <el-col :span="1"></el-col>
-        <el-col :span="9">
-          <el-input placeholder="请填写您的体重（kg）" v-model="weight"></el-input>
-        </el-col>
-        <el-col :span="1"></el-col>
-      </el-row>
-      <br />
-      <el-row>
-        <el-col :span="17"></el-col>
-        <el-col :span="2" align="right">
-          <el-button type="primary" @click="bmiShow = !bmiShow">计算</el-button>
-        </el-col>
-      </el-row>
-      <br />
-      <el-row v-if="bmiShow">
-        <el-col :span="8"></el-col>
-        <el-col :span="4">
-          <div class="left">
-            <div>&nbsp;BMI指数</div>
-            <div>&nbsp;BMI建议</div>
-          </div>
-        </el-col>
-        <el-col :span="4">
-          <div class="right" align="right">
-            <div>{{bmi}}&nbsp;</div>
-            <div>{{bmiAdvice}}&nbsp;</div>
           </div>
         </el-col>
         <el-col :span="8"></el-col>
@@ -269,6 +236,10 @@ export default {
     animation: fadeInAnimation ease-in 0.5s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
+  }
+  h3 {
+    position: relative;
+    left:8.5%;
   }
   .el-card {
     transform-origin: 50% 0; 

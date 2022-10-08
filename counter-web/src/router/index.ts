@@ -11,6 +11,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/CounterPage.vue')
       },
       {
+        path:'/Index',
+        component: () => import('@/views/IndexPage.vue'),
+        meta: {title : 'index'}
+      },
+      {
         path: '/Counter',
         component: () => import('@/views/CounterPage.vue'),
         meta: { title: 'counter' }
