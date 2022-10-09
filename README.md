@@ -39,7 +39,7 @@ caculator-server SpringBoot项目（后端）<br />
 <p>----test 测试代码</p>
 <br/>
 
-## 项目预览
+## 项目预览 
 
 > 前台截图预览
 ![image](https://user-images.githubusercontent.com/97968316/194745718-0c57ba31-df1c-448e-993e-f62e9eaa5eca.png)
