@@ -4,8 +4,11 @@
 
 ## 文件系统
 
-> caculator-web vue项目（前端）
---
+> caculator-web vue项目（前端）<br />
+--public index主页面
+--src 资源文件
+  --api 接口调用包装
+  --
 
 <br/>
 
