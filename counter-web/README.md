@@ -1,4 +1,4 @@
-# music-manage
+# Counter-Web
 
 ## Project setup
 ```
