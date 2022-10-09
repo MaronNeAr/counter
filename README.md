@@ -5,10 +5,14 @@
 ## 文件系统
 
 > caculator-web vue项目（前端）<br />
---public index主页面
---src 资源文件
-  --api 接口调用包装
-  --
+<p>--public index主页面</p>
+<p>--src 资源文件</p>
+<p>----api 接口调用</p>
+<p>----assets 静态资源</p>
+<p>----assets 静态资源</p>
+<p>----assets 静态资源</p>
+<p>----assets 静态资源</p>
+<p>----assets 静态资源</p>
 
 <br/>
 
