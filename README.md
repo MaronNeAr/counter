@@ -4,7 +4,7 @@
 
 ## 文件系统
 
-<h6>caculator-web Vue项目（前端）</ h6>
+caculator-web Vue项目（前端）<br />
 <p>--public index主页面</p>
 <p>--src 前端资源文件（代码）</p>
 <p>----api 接口调用</p>
@@ -23,7 +23,7 @@
 <p>----App.vue 主组件</p>
 <p>----main.ts 全局引入包管理</p>
 <br/>
-<h6>caculator-server SpringBoot项目（后端）</ h6>
+caculator-server SpringBoot项目（后端）<br />
 <p>--sql 数据库文件</p>
 <p>--img 图像文件</p>
 <p>--src 后端资源文件（代码）</p>
